@@ -1,61 +1,52 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./App.css";
-
 import Footer from "./Footer";
 import Header from "./Header";
 import TripList from "./components/TripList";
 import Wishlist from "./components/Wishlist";
 
-
 export default function App() {
-    const [wishlist, setWishlist] = useState([]); // [1,2,3,4,5
-
+    const [wishlist, setWishlist] = useState([]);
 
     // wishlist functions
     function addToWishlist(trip) {
-        console.log("add to wishlist->", trip);
-        const {id, title, description, startTrip, endTrip} = trip;
-        setWishlist((trip) => {
-            const tripInWishlist = trip.find((t) => t.id === id);
-            if (tripInWishlist) {
-                return trip;
-            } else {
-                return [...trip, {id, title, description, startTrip, endTrip}];
-            }
-        });
+        try {
+            const { id, title, description, startTrip, endTrip } = trip;
+            setWishlist((prevWishlist) => {
+                const tripInWishlist = prevWishlist.find((t) => t.id === id);
+                if (tripInWishlist) {
+                    return prevWishlist;
+                }
+                return [...prevWishlist, { id, title, description, startTrip, endTrip }];
+            });
+        } catch (error) {
+            console.error("Error adding to wishlist", error);
+        }
     }
 
     function removeFromWishlist(item) {
-        setWishlist((trip) => trip.filter((t) => t.id !== item.id));
-
+        setWishlist((prevWishlist) => prevWishlist.filter((t) => t.id !== item.id));
     }
-
 
     function clearWishlist() {
         setWishlist([]);
     }
 
-
-// if month selected then filter the trips from month === month
-
-// if error then throw the error
-
-// shorthand for react fragment
     return (
         <>
             <div>
-                <Header/>
+                <Header />
                 <main>
-                    <h1>Welcome to biztrips Happy new Year-react - 2024</h1>
-
-                    <Wishlist wishlist={wishlist} removeFromWishlist={removeFromWishlist}
-                              clearWishlist={() => clearWishlist()}/>
-                    {/*   <WishList />*/}
-                    <TripList addToWishlist={addToWishlist}/>
-
+                    <h1>Welcome to biztrips Happy New Year - React 2024</h1>
+                    <Wishlist
+                        wishlist={wishlist}
+                        removeFromWishlist={removeFromWishlist}
+                        clearWishlist={clearWishlist}
+                    />
+                    <TripList addToWishlist={addToWishlist} />
                 </main>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 }

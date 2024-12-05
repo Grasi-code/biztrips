@@ -1,0 +1,65 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      # Set up Node.js (latest LTS version)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16' # You can choose the version that fits your app
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run tests
+      - name: Run tests
+        run: npm test
+
+      # Build the app (if applicable)
+      - name: Build the app
+        run: npm run build
+
+  # Deployment Job (optional, for example, using Netlify or any other platform)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'  # Only deploy from the main branch
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js again (deployment step)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      # Install dependencies for deployment
+      - name: Install dependencies
+        run: npm install
+
+      # Deploy to a service (e.g., Netlify, AWS, etc.)
+      - name: Deploy to Netlify
+        run: |
+          npm install netlify-cli -g
+          netlify deploy --prod --dir=build  # Ensure 'build' is your production folder
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
