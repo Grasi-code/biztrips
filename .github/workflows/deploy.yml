@@ -3,11 +3,11 @@ name: Deploy to Netlify
 on:
   push:
     branches:
-      - main  # Der Workflow wird auf 'main' ausgelöst, wenn du Änderungen dorthin pushst.
+      - main  # Trigger den Workflow bei jedem Push auf den 'main' Branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # GitHub Actions läuft auf einem Ubuntu-VM
+    runs-on: ubuntu-latest  # GitHub Actions läuft auf einer Ubuntu-VM
 
     steps:
       - name: Checkout the code
@@ -16,18 +16,23 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Setze die Node.js-Version (z.B. v16, aber du kannst auch die Version anpassen, die du brauchst)
+          node-version: '16'  # Setze die Node.js-Version (z.B. v16)
 
       - name: Install dependencies
         run: npm install  # Installiere die Abhängigkeiten, die in package.json definiert sind
 
       - name: Build the app
-        run: npm run build  # Baue die React-Anwendung (stellt sicher, dass der 'build'-Ordner vorhanden ist)
+        run: npm run build  # Erstelle den Produktionsbuild (standardmäßig 'build' Ordner)
+
+      - name: Install Netlify CLI
+        run: npm install netlify-cli -g  # Installiere Netlify CLI global
+
+      - name: Netlify build (optional but recommended for Netlify-specific builds)
+        run: netlify build  # Dies sorgt dafür, dass Netlify-spezifische Build-Prozesse ausgeführt werden
 
       - name: Deploy to Netlify
         run: |
-          npm install netlify-cli -g  # Installiere Netlify CLI global
-          netlify deploy --prod --dir=build  # Deploy den 'build'-Ordner auf Netlify
+          netlify deploy --prod --dir=build  # Deploy den 'build' Ordner auf Netlify
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}  # Authentifizierungstoken für Netlify
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}  # Dein Netlify Auth-Token
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}  # Deine Netlify Site ID
