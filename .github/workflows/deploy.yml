@@ -1,37 +1,82 @@
-name: Deploy to Netlify
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main  # Trigger den Workflow bei jedem Push auf den 'main' Branch
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # GitHub Actions läuft auf einer Ubuntu-VM
-
+  test:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2  # Checkout des Repositories, um den Code verfügbar zu machen
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Setze die Node.js-Version (z.B. v16)
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install  # Installiere die Abhängigkeiten, die in package.json definiert sind
+        run: npm install
 
-      - name: Build the app
-        run: npm run build  # Erstelle den Produktionsbuild (standardmäßig 'build' Ordner)
+      - name: Run tests
+        run: npm test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test  # Run build only after test succeeds
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: build/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  # Run deploy only after build succeeds
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
 
       - name: Install Netlify CLI
-        run: npm install netlify-cli -g  # Installiere Netlify CLI global
+        run: npm install netlify-cli@17.10.1 -g
 
-      - name: Netlify build (optional but recommended for Netlify-specific builds)
-        run: netlify build  # Dies sorgt dafür, dass Netlify-spezifische Build-Prozesse ausgeführt werden
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: Deploy to Netlify  
-        env:    
-            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}    
-            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }} 
-        run: netlify deploy --dir=./app/build --prod   
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          netlify deploy --dir=./build --prod
