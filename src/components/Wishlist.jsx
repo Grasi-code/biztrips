@@ -26,7 +26,7 @@ function Wishlist({ wishlist, removeFromWishlist, clearWishlist }) {
                         <table className="table table-hover shopping-cart-wrap">
                             <thead className="text-muted">
                                 <tr>
-                                    <th scope="col">Trip</th>
+                                    <th scope="col">Trips</th>
                                     <th scope="col" width="120">
                                         Price
                                     </th>
