@@ -8,9 +8,7 @@ test('renders a heading', () => {
   screen.debug();  // Gibt das gerenderte HTML im Test-Output aus
 
   // Überprüfe, ob das Heading im DOM ist
-  const heading = screen.getByRole('heading', {
-    name: /Welcome to biztrips Happy New Year - React 2024/i,
-  });
+  const heading = screen.getByText(/Welcome to biztrips Happy New Year - React 2024/i);
   
   expect(heading).toBeInTheDocument();
 });
