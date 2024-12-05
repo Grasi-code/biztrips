@@ -30,9 +30,8 @@ jobs:
       - name: Netlify build (optional but recommended for Netlify-specific builds)
         run: netlify build  # Dies sorgt dafür, dass Netlify-spezifische Build-Prozesse ausgeführt werden
 
-      - name: Deploy to Netlify
-        run: |
-          netlify deploy --prod --dir=build  # Deploy den 'build' Ordner auf Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}  # Dein Netlify Auth-Token
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}  # Deine Netlify Site ID
+      - name: Deploy to Netlify  
+        env:    
+            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}    
+            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }} 
+        run: netlify deploy --dir=./app/build --prod   
