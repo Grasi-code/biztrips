@@ -87,9 +87,8 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
 ## Rollen und Verantwortlichkeiten
 | **Person** | **Verantwortung**       |
 |------------|--------------------------|
-| Martin     | End-to-End Tests         |
-| Jack       | Unit Tests               |
-| Liam       | CI/CD Pipelines          |
+| Andri     | Alles         |
+| Alex       | Emotional support animal, Testkonzept               |
 ---
 ## Testumgebung
 - **Unit Testing:** Jest  
