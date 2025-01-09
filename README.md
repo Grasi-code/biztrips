@@ -95,7 +95,7 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
 - **Component Testing:** Cypress  
 - **End-to-End Testing (E2E):** Cypress  
 ---
-## Test Cases
+## Test Cases 
 | **TestID** | **User Story**                                                                 | **Erwartetes Ergebnis**                                                                                                                                 |
 |------------|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1          | Ich als Benutzer kann alle Business Trips sehen.                              | Es werden mir alle 3 Business Trips angezeigt.                                                                                                          |
