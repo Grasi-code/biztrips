@@ -36,17 +36,4 @@ jobs:
           mkdir -p ./app/build
           docker cp $container_id:/app/build ./app/
           docker rm $container_id
-
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-
-      - name: Deploy to Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: |
-          netlify deploy --dir=./app/build --prod
-
-      - name: Verify Deployment
-        run: |
-          echo "Deployment to Netlify complete. You can check the site at your Netlify URL."
+          
