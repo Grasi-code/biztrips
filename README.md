@@ -12,21 +12,21 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
   - **Name:** Build the Docker image  
   - **Befehl:**  
     ```bash
-    docker build -t lgleeson123/biztrips-2023-testing .
+    docker build -t alexanderstern776514/biztrips-2023-testing .
     ```  
-  - **Beschreibung:** Baut das Docker-Image aus dem aktuellen Verzeichnis (`.`) und taggt es als `lgleeson123/biztrips-2023-testing`.
+  - **Beschreibung:** Baut das Docker-Image aus dem aktuellen Verzeichnis (`.`) und taggt es als `alexanderstern776514/biztrips-2023-testing`.
 3. **Login bei Docker Hub**  
   - **Name:** Log in to Docker Hub  
   - **Befehl:**  
     ```bash
-    docker login -u lgleeson123 -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+    docker login -u alexanderstern776514 -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
     ```  
   - **Beschreibung:** Meldet sich bei Docker Hub mit Benutzernamen und Token aus GitHub-Secrets an.
 4. **Pushen des Docker-Images**  
   - **Name:** Push the Docker image  
   - **Befehl:**  
     ```bash
-    docker push lgleeson123/biztrips-2023-testing
+    docker push alexanderstern776514/biztrips-2023-testing
     ```  
   - **Beschreibung:** Läd das erstellte Docker-Image auf Docker Hub hoch.
 ---
@@ -46,14 +46,14 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
   - **Name:** Pull the Docker image  
   - **Befehl:**  
     ```bash
-    docker pull lgleeson123/biztrips-2023-testing:latest
+    docker pull alexanderstern776514/biztrips-2023-testing:latest
     ```  
   - **Beschreibung:** Lädt das Docker-Image mit dem Tag `latest` von Docker Hub herunter.
 4. **Extrahieren der App-Dateien aus dem Container**  
   - **Name:** Extract app files from the container  
   - **Befehl:**  
     ```bash
-    container_id=$(docker create lgleeson123/biztrips-2023-testing:latest)
+    container_id=$(docker create alexanderstern776514/biztrips-2023-testing:latest)
     mkdir -p ./app/build
     docker cp $container_id:/app/build ./app/
     docker rm $container_id
