@@ -12,9 +12,9 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
   - **Name:** Build the Docker image  
   - **Befehl:**  
     ```bash
-    docker build -t alexanderstern776514/biztrips-2023-testing .
+    docker build -t alexanderstern776514/biztrips .
     ```  
-  - **Beschreibung:** Baut das Docker-Image aus dem aktuellen Verzeichnis (`.`) und taggt es als `alexanderstern776514/biztrips-2023-testing`.
+  - **Beschreibung:** Baut das Docker-Image aus dem aktuellen Verzeichnis (`.`) und taggt es als `alexanderstern776514/biztrips`.
 3. **Login bei Docker Hub**  
   - **Name:** Log in to Docker Hub  
   - **Befehl:**  
@@ -26,7 +26,7 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
   - **Name:** Push the Docker image  
   - **Befehl:**  
     ```bash
-    docker push alexanderstern776514/biztrips-2023-testing
+    docker push alexanderstern776514/biztrips
     ```  
   - **Beschreibung:** Läd das erstellte Docker-Image auf Docker Hub hoch.
 ---
@@ -46,49 +46,23 @@ Ein Job, der auf einem Ubuntu-Host (`ubuntu-latest`) ausgeführt wird.
   - **Name:** Pull the Docker image  
   - **Befehl:**  
     ```bash
-    docker pull alexanderstern776514/biztrips-2023-testing:latest
+    docker pull alexanderstern776514/biztrips:latest
     ```  
   - **Beschreibung:** Lädt das Docker-Image mit dem Tag `latest` von Docker Hub herunter.
 4. **Extrahieren der App-Dateien aus dem Container**  
   - **Name:** Extract app files from the container  
   - **Befehl:**  
     ```bash
-    container_id=$(docker create alexanderstern776514/biztrips-2023-testing:latest)
+    container_id=$(docker create alexanderstern776514/biztrips:latest)
     mkdir -p ./app/build
     docker cp $container_id:/app/build ./app/
     docker rm $container_id
     ```  
   - **Beschreibung:** Erstellt einen Container, extrahiert die Build-Dateien, und entfernt den Container anschließend.
-5. **Installieren des Netlify CLI**  
-  - **Name:** Install Netlify CLI  
-  - **Befehl:**  
-    ```bash
-    npm install -g netlify-cli
-    ```  
-  - **Beschreibung:** Installiert das Netlify CLI global auf dem Runner.
-6. **Deployment auf Netlify**  
-  - **Name:** Deploy to Netlify  
-  - **Befehl:**  
-    ```bash
-    netlify deploy --dir=./app/build --prod
-    ```  
-  - **Umgebungsvariablen:**  
-    - `NETLIFY_AUTH_TOKEN`: Token für Netlify-Authentifizierung (aus GitHub Secrets).  
-    - `NETLIFY_SITE_ID`: Site-ID für die Netlify-Webseite (aus GitHub Secrets).  
-  - **Beschreibung:** Führt das Deployment der App auf Netlify aus.
-7. **Verifizierung der Bereitstellung**  
-  - **Name:** Verify Deployment  
-  - **Befehl:**  
-    ```bash
-    echo "Deployment to Netlify complete. You can check the site at your Netlify URL."
-    ```  
-  - **Beschreibung:** Gibt eine Bestätigung aus, dass das Deployment abgeschlossen ist.
----
 ## Rollen und Verantwortlichkeiten
 | **Person** | **Verantwortung**       |
 |------------|--------------------------|
-| Andri     | Alles         |
-| Alex       | Emotional support animal, Testkonzept               |
+| Alex       |Pipeline und Tests              |
 ---
 ## Testumgebung
 - **Unit Testing:** Jest  
