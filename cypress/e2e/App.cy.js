@@ -3,7 +3,7 @@
 import { testTrips } from "../../src/components/api";
 import React from "react";
 import { mount } from "cypress/react";
-import WishlistItem from "../../../src/components/WishlistItem";
+import WishlistItem from "../../src/components/WishlistItem";
 
 describe("Cypress Tests: Integration, Component, and E2E", () => {
   //
@@ -11,8 +11,8 @@ describe("Cypress Tests: Integration, Component, and E2E", () => {
   //
   describe("Integration Tests", () => {
     beforeEach(() => {
-      cy.visit("https://fluffy-florentine-456b52.netlify.app");
-      cy.intercept("GET", "https://fluffy-florentine-456b52.netlify.app/api/trips", {
+      cy.visit("/");
+      cy.intercept("GET", "https://fluffy-florentine-456b52.netlify.app", {
         body: testTrips,
       }).as("getTrips");
     });
@@ -97,8 +97,8 @@ describe("Cypress Tests: Integration, Component, and E2E", () => {
   //
   describe("End-to-End (E2E) Tests", () => {
     beforeEach(() => {
-      cy.visit("https://fluffy-florentine-456b52.netlify.app");
-      cy.intercept("GET", "https://fluffy-florentine-456b52.netlify.app/api/trips", {
+      cy.visit("/");
+      cy.intercept("GET", "https://fluffy-florentine-456b52.netlify.app", {
         body: testTrips,
       }).as("getTrips");
     });
