@@ -3,7 +3,7 @@
 import { testTrips } from "../../src/components/api";
 import React from "react";
 import { mount } from "cypress/react";
-import WishlistItem from "../../src/components/WishlistItem";
+import WishlistItem from "../../../src/components/WishlistItem";
 
 describe("Cypress Tests: Integration, Component, and E2E", () => {
   //
