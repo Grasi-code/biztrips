@@ -11,11 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build -t lgleeson123/biztrips-2023-testing .
+        run: docker build -t alexanderstern776514/biztrips .
       - name: Log in to Docker Hub
-        run: docker login -u lgleeson123 -p  ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        run: docker login -u alexanderstern776514 -p  ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Push the Docker image
-        run: docker push lgleeson123/biztrips-2023-testing
+        run: docker push alexanderstern776514/biztrips
 
   deploy:
     needs: build
@@ -28,11 +28,11 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Pull the Docker image
-        run: docker pull lgleeson123/biztrips-2023-testing:latest
+        run: docker pull alexanderstern776514/biztrips:latest
 
       - name: Extract app files from the container
         run: |
-          container_id=$(docker create lgleeson123/biztrips-2023-testing:latest)
+          container_id=$(docker create alexanderstern776514/biztrips:latest)
           mkdir -p ./app/build
           docker cp $container_id:/app/build ./app/
           docker rm $container_id
